@@ -40,4 +40,5 @@
   <include file="$(find robot_final)/launch/gmapping.launch"/>
   <include file="$(find robot_final)/launch/move_base.launch"/>
   <include file="$(find explore_lite)/launch/explore.launch"/> 
+  <node name="detect_markers" pkg="robot_final" type="detect_markers"/>
 </launch>
