@@ -150,7 +150,7 @@
     <axis xyz="0.0028853 -0.031751 -0.99949" />
   </joint>
   
-  <transmission name="left_wheel_transmission">
+   <transmission name="left_wheel_transmission">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="left_wheel_joint">
             <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
@@ -171,4 +171,5 @@
             <hardwareInterface>VelocityJointInterface</hardwareInterface>
         </actuator>
     </transmission>
+  
 </robot>
