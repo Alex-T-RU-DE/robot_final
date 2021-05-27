@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="ns" default="robot"/>
+  <arg name="name" default="robot_final"/>    
+  
+  <arg name="rvizconfig" default="$(find robot_final)/rviz/rviz.rviz" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="false" />
+    
+  <arg name="model" default="$(find robot_final)/urdf/robot_final.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+  <arg name="robot_model" default="$(find robot_final)/urdf/robot_final.urdf"/>
+ 
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="verbose" value="true" />
+     <arg name="world_name" value="$(find robot_final)/worlds/world.world"/>
+  </include>
+  
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="z" default="0.0"/>
+   <arg name="yaw" default="1.571"/>
+  <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" 
+  	args="-unpause
+                -urdf
+                -param robot_description 
+                -model $(arg name)
+                -x $(arg x) 
+                -y $(arg y) 
+                -z $(arg z)
+                -Y $(arg yaw)" />
+                
+  <rosparam file="$(find robot_final)/config/simple_diff_drive.yaml" command="load" />
+    <node name="simple_controller_manager" pkg="controller_manager" type="spawner"
+          respawn="false" output="screen" args="mobile_base_controller" />
+          
+  <include file="$(find robot_final)/launch/gmapping.launch"/>
+  <include file="$(find robot_final)/launch/move_base.launch"/>
+  <include file="$(find explore_lite)/launch/explore.launch"/> 
+</launch>
