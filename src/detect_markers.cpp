@@ -37,7 +37,7 @@ class ColorDetector
 				{
 					if ((int)img->data[i*img->step + j] > 100)
 					{
-						std::cout << "RED" << std::endl;
+						ROS_INFO("RED");
 						robot_final::PoseColorMsg outMsg;
 						outMsg.pose = currentPose_;
 						outMsg.color = "RED";
@@ -46,7 +46,7 @@ class ColorDetector
 					}
 					else if ((int)img->data[i*img->step + (j + 2)] > 100)
 					{
-						std::cout << "BLUE" << std::endl;
+						ROS_INFO("BLUE");
 						robot_final::PoseColorMsg outMsg;
 						outMsg.pose = currentPose_;
 						outMsg.color = "BLUE";
@@ -61,7 +61,6 @@ class ColorDetector
 		void odomCallback(const nav_msgs::Odometry::ConstPtr& odom)
 		{
 			currentPose_ = odom->pose.pose;
-			std::cout << currentPose_<< std::endl;
 		}
 	
 };
@@ -69,7 +68,7 @@ class ColorDetector
 int main(int argc, char *argv[]) 
 {
 	//init ros node
-	ros::init(argc, argv, "jetson_yolo_node");
+	ros::init(argc, argv, "detect_color_node");
  
 	ColorDetector cd;
 
